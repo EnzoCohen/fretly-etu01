@@ -153,7 +153,7 @@ En production, je mettrais une machine ou un service managé (ECS/Fargate) par a
 
 ## Preuve que les barrières fonctionnent
 
-J'ai ouvert la PR [#6 `demo/cve`](https://github.com/EnzoCohen/fretly-etu01/pull/6) qui remet `python-multipart==0.0.6`. La CI la bloque au job **`scan-repo`**, à l'étape **« Trivy fs (bloquant sur HIGH/CRITICAL corrigeables) »** ([lien vers l'étape](https://github.com/EnzoCohen/fretly-etu01/actions/runs/40673915010/job/122767418055#step:3:1)). `build` et `deploy` ne tournent pas et la fusion est bloquée. La PR a ensuite été fermée sans être fusionnée.
+J'ai ouvert la PR [#6 `demo/cve`](https://github.com/EnzoCohen/fretly-etu01/pull/6) qui remet `python-multipart==0.0.6`. La CI la bloque au job **`scan-repo`**, à l'étape **« Trivy fs (bloquant sur HIGH/CRITICAL corrigeables) »** ([lien vers l'étape](https://github.com/EnzoCohen/fretly-etu01/actions/runs/40673915010/job/122767418055#step:3:1)). `build` et `deploy` ne tournent pas. La fusion est bloquée, parce que `scan-repo` est un check obligatoire et que les alertes Trivy ne sont pas résolues. La PR a ensuite été fermée sans être fusionnée.
 
 ![PR demo/cve bloquée](docs/captures/demo-cve-pr-bloquee.png)
 ![Run bloqué à scan-repo](docs/captures/demo-cve-run-scan-repo-echec.png)
@@ -171,7 +171,7 @@ Sur cette même PR, j'ai poussé un deuxième commit pendant que le premier run 
 
 Le run vert avec déploiement est dans la partie « Pipeline CI/CD », la protection de `main` dans « Stratégie de branches » et la PR `demo/cve` juste au-dessus.
 
-Le paquet sur ghcr.io, avec `latest` et `sha-fc35fb9` sur la même image :
+Le paquet sur ghcr.io au moment de la capture, avec `latest` et `sha-fc35fb9` sur la même image (chaque nouveau push sur `main` publie un nouveau tag `sha-…` et déplace `latest`) :
 
 ![Paquet ghcr.io](docs/captures/paquet-ghcr.png)
 
