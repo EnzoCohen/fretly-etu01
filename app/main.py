@@ -1,7 +1,6 @@
 """Fretly API : suivi d'expéditions."""
 import csv
 import io
-import json
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile

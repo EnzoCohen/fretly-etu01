@@ -1,5 +1,7 @@
 # Fretly API
 
+[![CI/CD](https://github.com/EnzoCohen/fretly-etu01/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/EnzoCohen/fretly-etu01/actions/workflows/ci-cd.yml)
+
 API de suivi d'expéditions de la société **Fretly** (transport de colis entre professionnels).
 
 ## Stack
