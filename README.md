@@ -49,3 +49,13 @@ La clé d'API se passe dans l'en-tête `X-API-Key`.
 | `APP_ENV`      | `development`             | Nom de l'environnement               |
 | `APP_VERSION`  | `0.0.0-dev`               | Version affichée par `/version`      |
 | `GIT_COMMIT`   | `unknown`                 | Commit affiché par `/version`        |
+
+## Stratégie de branches
+
+J'ai choisi **GitHub Flow** :
+
+- `main` est la seule branche permanente. Elle doit toujours être stable, puisque chaque push sur `main` part en production.
+- Chaque évolution se fait sur une branche courte créée depuis `main` (`feature/docker`, `feature/ci`, `feature/deploy`…), puis revient dans `main` par une Pull Request une fois la CI verte.
+- On ne pousse jamais directement sur `main` : c'est bloqué par un ruleset.
+
+Pourquoi pas GitFlow ? Je travaille seul sur le projet et il n'y a qu'un seul environnement (le serveur EC2). Une branche `develop` et des branches de release ajouteraient des fusions en plus sans rien apporter. Avec GitHub Flow, le chemin est simple : une branche, une PR, la CI vérifie, on fusionne, et le déploiement part tout seul depuis `main`.
