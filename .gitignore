@@ -1,0 +1,35 @@
+# Secrets et configuration locale
+.env
+*.pem
+*.key
+id_rsa*
+
+# Ancien déploiement manuel (contient une clé SSH) : ne jamais versionner
+legacy/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+junit*.xml
+
+# Bases SQLite locales
+*.db
+
+# Rapports de scan
+*.sarif
+sbom*.json
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Notes de travail locales
+CLAUDE.md
