@@ -1,0 +1,28 @@
+# Git et secrets
+.git
+.gitignore
+.github
+.env
+.env.*
+
+# Tests et caches
+tests/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
+.venv/
+*.db
+
+# Inutile pour construire l'image
+docs/
+data/
+deploy/
+legacy/
+Dockerfile
+compose*.yaml
+README.md
+CLAUDE.md
+.DS_Store
