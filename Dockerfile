@@ -29,8 +29,10 @@ ENV PATH="/opt/venv/bin:$PATH" \
 LABEL org.opencontainers.image.source="https://github.com/EnzoCohen/fretly-etu01" \
       org.opencontainers.image.revision="${GIT_COMMIT}"
 
-# Mise à jour des paquets système (correctifs de sécurité) et création de l'utilisateur
+# Mise à jour des paquets système (correctifs de sécurité), retrait de pip
+# (inutile à l'exécution) et création de l'utilisateur
 RUN apk upgrade --no-cache \
+    && pip uninstall -y pip \
     && addgroup -S -g 10001 fretly \
     && adduser -S -D -H -u 10001 -G fretly -s /sbin/nologin fretly
 
