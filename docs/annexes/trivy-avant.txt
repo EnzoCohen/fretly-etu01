@@ -1,0 +1,114 @@
+2026-10-28T09:44:55+01:00	INFO	[vulndb] Need to update DB
+2026-10-28T09:44:55+01:00	INFO	[vulndb] Downloading vulnerability DB...
+2026-10-28T09:44:55+01:00	INFO	[vulndb] Downloading artifact...	repo="mirror.gcr.io/aquasec/trivy-db:2"
+2026-10-28T09:45:26+01:00	INFO	[vulndb] Artifact successfully downloaded	repo="mirror.gcr.io/aquasec/trivy-db:2"
+2026-10-28T09:45:26+01:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-10-28T09:45:26+01:00	INFO	[misconfig] Misconfiguration scanning is enabled
+2026-10-28T09:45:26+01:00	INFO	[checks-client] Need to update the checks bundle
+2026-10-28T09:45:26+01:00	INFO	[checks-client] Downloading the checks bundle...
+234.57 KiB / 234.57 KiB [------------------------------------------------------] 100.00% ? p/s 200ms2026-10-28T09:45:27+01:00	INFO	[secret] Secret scanning is enabled
+2026-10-28T09:45:27+01:00	INFO	[secret] If your scanning is slow, please try '--scanners vuln,misconfig' to disable secret scanning
+2026-10-28T09:45:27+01:00	INFO	[secret] Please see https://trivy.dev/docs/v0.76/guide/scanner/secret#recommendation for faster secret detection
+2026-10-28T09:45:27+01:00	INFO	Number of language-specific files	num=1
+2026-10-28T09:45:27+01:00	INFO	[pip] Detecting vulnerabilities...
+2026-10-28T09:45:27+01:00	INFO	Detected config files	num=0
+
+Report Summary
+
+┌─────────────────────────┬──────┬─────────────────┬─────────┬───────────────────┐
+│         Target          │ Type │ Vulnerabilities │ Secrets │ Misconfigurations │
+├─────────────────────────┼──────┼─────────────────┼─────────┼───────────────────┤
+│ requirements.txt        │ pip  │        9        │    -    │         -         │
+├─────────────────────────┼──────┼─────────────────┼─────────┼───────────────────┤
+│ legacy/deploy_manuel.sh │ text │        -        │    1    │         -         │
+└─────────────────────────┴──────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+requirements.txt (pip)
+======================
+Total: 9 (UNKNOWN: 0, LOW: 3, MEDIUM: 1, HIGH: 5, CRITICAL: 0)
+
+┌──────────────────┬────────────────┬──────────┬────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────────────┐
+│     Library      │ Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                            Title                             │
+├──────────────────┼────────────────┼──────────┼────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ python-multipart │ CVE-2024-24762 │ HIGH     │ fixed  │ 0.0.6             │ 0.0.7         │ `python-multipart` is a streaming multipart parser for       │
+│                  │                │          │        │                   │               │ Python. When us ...                                          │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-24762                   │
+│                  ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2024-53981 │          │        │                   │ 0.0.18        │ python-multipart: python-multipart has a DoS via deformation │
+│                  │                │          │        │                   │               │ `multipart/form-data` boundary                               │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-53981                   │
+│                  ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-24486 │          │        │                   │ 0.0.22        │ python-multipart: Python-Multipart: Arbitrary file write via │
+│                  │                │          │        │                   │               │ path traversal vulnerability                                 │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-24486                   │
+│                  ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-42561 │          │        │                   │ 0.0.27        │ python-multipart: python-multipart: Denial of Service via    │
+│                  │                │          │        │                   │               │ excessive multipart part headers                             │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-42561                   │
+│                  ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-53539 │          │        │                   │ 0.0.30        │ python-multipart: Python-Multipart: Denial of Service via    │
+│                  │                │          │        │                   │               │ crafted form-urlencoded bodies                               │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-53539                   │
+│                  ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-40347 │ MEDIUM   │        │                   │ 0.0.26        │ python-multipart: Python-Multipart: Denial of Service via    │
+│                  │                │          │        │                   │               │ crafted multipart/form-data requests                         │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-40347                   │
+│                  ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-53537 │ LOW      │        │                   │ 0.0.30        │ multipart: Python-Multipart: Information disclosure via      │
+│                  │                │          │        │                   │               │ header parsing discrepancy                                   │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-53537                   │
+│                  ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-53538 │          │        │                   │               │ python-multipart: Python-Multipart: Information disclosure   │
+│                  │                │          │        │                   │               │ due to parser differential in form data handling...          │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-53538                   │
+│                  ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-53540 │          │        │                   │ 0.0.31        │ python-multipart: Python-Multipart: Negative Content-Length  │
+│                  │                │          │        │                   │               │ in parse_form buffers the entire body in memory...           │
+│                  │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-53540                   │
+└──────────────────┴────────────────┴──────────┴────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────────────┘
+
+legacy/deploy_manuel.sh (secrets)
+=================================
+Total: 1 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 1, CRITICAL: 0)
+
+HIGH: AsymmetricPrivateKey (private-key)
+════════════════════════════════════════
+Asymmetric Private Key
+────────────────────────────────────────
+ legacy/deploy_manuel.sh:11-35 (offset: 290 bytes)
+────────────────────────────────────────
+   9   cat > /tmp/fretly_key <<'KEY'
+  10   -----BEGIN RSA PRIVATE KEY-----
+  11 ┌ ****************************************************************
+  12 │ ****************************************************************
+  13 │ ****************************************************************
+  14 │ ****************************************************************
+  15 │ ****************************************************************
+  16 │ ****************************************************************
+  17 │ ****************************************************************
+  18 │ ****************************************************************
+  19 │ ****************************************************************
+  20 │ ****************************************************************
+  21 │ ****************************************************************
+  22 │ ****************************************************************
+  23 │ ****************************************************************
+  24 │ ****************************************************************
+  25 │ ****************************************************************
+  26 │ ****************************************************************
+  27 │ ****************************************************************
+  28 │ ****************************************************************
+  29 │ ****************************************************************
+  30 │ ****************************************************************
+  31 │ ****************************************************************
+  32 │ ****************************************************************
+  33 │ ****************************************************************
+  34 │ ****************************************************************
+  35 └ ****************************************************
+  36   -----END RSA PRIVATE KEY-----
+────────────────────────────────────────
+
+

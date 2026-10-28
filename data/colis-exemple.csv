@@ -1,0 +1,5 @@
+reference;recipient;city;weight_kg;distance_km;express
+FR-1001;Boulangerie Roux;Nantes;2.5;380;oui
+FR-1002;Garage Lopez;Lille;18;220;non
+FR-1003;Pharmacie du Port;Marseille;0.8;310;oui
+FR-1004;Librairie Les Mots;Bordeaux;6.2;580;non
