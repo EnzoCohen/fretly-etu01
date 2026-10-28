@@ -94,17 +94,6 @@ Le commit est passé au build avec `GIT_COMMIT` et ressort sur `/version`, et un
 
 Tout est dans [.github/workflows/ci-cd.yml](.github/workflows/ci-cd.yml).
 
-```mermaid
-flowchart LR
-    A[push / PR / manuel] --> L[lint<br/>ruff]
-    A --> T[test 3.12 + 3.13<br/>pytest, JUnit, couverture]
-    A --> S[scan-repo<br/>Trivy fs → SARIF]
-    L --> B
-    T --> B
-    S --> B[build<br/>build unique → Trivy image<br/>→ SBOM → push ghcr.io]
-    B --> D[deploy<br/>SSH → compose up --wait<br/>→ smoke test]
-```
-
 | Job | Push sur `main` | Pull Request | Lancement manuel |
 |---|---|---|---|
 | `lint`, `test`, `scan-repo` | oui | oui | oui |
