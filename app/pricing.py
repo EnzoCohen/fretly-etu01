@@ -20,7 +20,7 @@ def compute_price(weight_kg: float, distance_km: float, express: bool = False) -
     """Prix TTC arrondi au centime."""
     price = BASE_FEE + weight_kg * PRICE_PER_KG + distance_km * PRICE_PER_KM
     if express:
-        price = price + EXPRESS_SURCHARGE
+        price = price * (1 + EXPRESS_SURCHARGE)
     return round(max(price, MIN_PRICE), 2)
 
 
