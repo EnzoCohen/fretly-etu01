@@ -126,3 +126,81 @@ jobs:
             docker tag "$IMAGE" "${IMAGE%:*}:latest"
             docker push "${IMAGE%:*}:latest"
           fi
+
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment:
+      name: production
+      url: http://${{ vars.EC2_HOST }}:${{ vars.APP_PORT }}/docs
+    permissions:
+      contents: read
+      packages: read
+    # Jamais deux déploiements en même temps, et on n'en coupe pas un en cours
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configuration SSH (empreinte du serveur vérifiée)
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          echo "IMAGE_TAG=sha-${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<CONF
+          Host ec2
+            HostName ${{ vars.EC2_HOST }}
+            User ${{ vars.EC2_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            UserKnownHostsFile ~/.ssh/known_hosts
+          CONF
+
+      - name: Copie du fichier Compose
+        run: scp deploy/compose.prod.yaml ec2:fretly/compose.yaml
+
+      - name: Écriture du .env (lisible par etu01 uniquement)
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          APP_PORT: ${{ vars.APP_PORT }}
+        run: |
+          ssh ec2 'umask 077 && cat > fretly/.env && chmod 600 fretly/.env' <<ENV
+          IMAGE_TAG=$IMAGE_TAG
+          APP_PORT=$APP_PORT
+          APP_ENV=production
+          API_KEY=$API_KEY
+          POSTGRES_USER=fretly
+          POSTGRES_DB=fretly
+          POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+          DATABASE_URL=postgresql+psycopg://fretly:$POSTGRES_PASSWORD@db:5432/fretly
+          ENV
+
+      - name: Connexion à ghcr.io depuis le serveur
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GHCR_TOKEN" | ssh ec2 "docker login ghcr.io -u $GITHUB_ACTOR --password-stdin"
+
+      - name: Pull de l'image
+        run: ssh ec2 'cd fretly && docker compose -p fretly-etu01 pull'
+
+      - name: Démarrage (attend que les healthchecks soient verts)
+        run: ssh ec2 'cd fretly && docker compose -p fretly-etu01 up -d --wait --wait-timeout 120 --remove-orphans'
+
+      - name: Smoke test
+        env:
+          URL: http://${{ vars.EC2_HOST }}:${{ vars.APP_PORT }}
+        run: |
+          curl -fsS --retry 5 --retry-delay 3 --retry-all-errors "$URL/health"
+          echo
+          commit=$(curl -fsS "$URL/version" | jq -r .commit)
+          echo "commit servi : $commit / attendu : $GITHUB_SHA"
+          test "$commit" = "$GITHUB_SHA"
