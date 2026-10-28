@@ -1,5 +1,4 @@
 """Calcul du prix d'une expédition et cycle de vie des statuts."""
-import math
 
 BASE_FEE = 4.90           # frais fixes (EUR)
 PRICE_PER_KG = 0.80       # EUR par kg
