@@ -24,5 +24,4 @@ legacy/
 Dockerfile
 compose*.yaml
 README.md
-CLAUDE.md
 .DS_Store

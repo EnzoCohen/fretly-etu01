@@ -30,6 +30,3 @@ sbom*.json
 .DS_Store
 .idea/
 .vscode/
-
-# Notes de travail locales
-CLAUDE.md
